@@ -66,12 +66,13 @@ class FlowerGui(Frame):
 
         self.classifyButton = Button(self.master, text='Classify', width=10, bg='green', fg='white', command= self.classifyCommand)
         self.classifyButton.place(x =self.XstartPixel + 300, y =self.YstartPixel + 220)
+        self.classifyButton.configure(state=DISABLED)
 
 
 
         # ***   Status bar    ***
 
-        self.statusLabel = Label(self.master, text="Status: Ready", width = 40, font = ("bold", 10))
+        self.statusLabel = Label(self.master, text="Status: Ready", width = 50, font = ("bold", 8))
         self.statusLabel.place( x = self.XstartPixel + 130, y = self.YstartPixel + 300)
 
 
@@ -113,11 +114,13 @@ class FlowerGui(Frame):
         numOfBins = self.entry_bins_text.get()
 
         if not self.isInt(numOfBins):
-            self.updateStatus('Bins must be a number!')
+            self.updateStatus('Bins must be an int!')
             return
 
+        numOfBins = int(numOfBins)
+
         if numOfBins < 0:
-            self.updateStatus('Bins must be a positive number!')
+            self.updateStatus('Bins must be a positive integer!')
             return
 
 
@@ -126,6 +129,9 @@ class FlowerGui(Frame):
             self.nb_user = NB_User(dir_path=toBuildFolderPath, bins=numOfBins)
             df_train = self.nb_user.getTrainData()
             self.nb_user.fit_model(df_train)
+            self.updateStatus('Build successfully!')
+            self.classifyButton.configure(state=NORMAL)
+
 
 
         except AssertionError as error:
@@ -141,34 +147,12 @@ class FlowerGui(Frame):
 
         try:
             test_df = self.nb_user.getTestData()
-            results = self.nb_user.predict(test_df)
+            results, acc = self.nb_user.predict(test_df)
             self.nb_user.writeResults(results)
+            self.updateStatus('Results were written to output.txt - Accuracy = %.3f' % (acc))
+
         except AssertionError as error:
             self.updateStatus(str(error))
-
-
-
-
-
-
-
-
-        results = None
-        if results is None:
-            self.updateStatus('Problem while Classifying')
-            return
-
-
-        self.updateStatus('Results were written to output.txt')
-
-
-    def predictListener(self):
-        pass
-
-
-
-
-
 
 
 

@@ -21,6 +21,7 @@ class NB_User:
 
     def getAndProcessData(self, file_name):
         df = IO.readCSV(self.dir_path + file_name)
+        assert len(df) != 0, '{} Dataset is empty'.format(file_name)
         Preprocess.completeMissingVals(df, self.numerical_cols, self.categorical_cols.keys())
         Preprocess.discrete_numeric(df, self.numerical_cols, self.bins)
         return df
