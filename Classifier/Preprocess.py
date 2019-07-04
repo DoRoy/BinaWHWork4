@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def completeMissingVals(df, numeric_cols, categorical_cols):
+def completeMissingVals(df, numeric_cols):
     df.fillna(df.mean()[numeric_cols], inplace=True)
     df.fillna(df.mode().iloc[0], inplace=True)
 
@@ -30,7 +30,7 @@ def get_numeric_categorical_lists(text):
     return categorical, numeric
 
 
-def createStructureDic(categorical:dict, numerical:list, bins:int ):
+def createStructureDic(categorical, numerical, bins ):
     struct_dic = {}
     struct_dic.update(categorical)
 

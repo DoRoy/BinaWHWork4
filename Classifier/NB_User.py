@@ -22,7 +22,7 @@ class NB_User:
     def getAndProcessData(self, file_name):
         df = IO.readCSV(self.dir_path + file_name)
         assert len(df) != 0, '{} Dataset is empty'.format(file_name)
-        Preprocess.completeMissingVals(df, self.numerical_cols, self.categorical_cols.keys())
+        Preprocess.completeMissingVals(df, self.numerical_cols)
         Preprocess.discrete_numeric(df, self.numerical_cols, self.bins)
         return df
 
@@ -35,8 +35,8 @@ class NB_User:
         results = self.nb_model.predict(test_df.drop(columns=['class']))
         # results_df = pd.DataFrame.from_dict(results, orient='index')
         compared_results = list(map(lambda x, y: 0 if x == y else 1, results.values(), test_df['class']))
-        # compared_results_tuple = list(zip(results.values(), test_df['class']))
-        error = sum(compared_results) / len(compared_results)
+        compared_results_tuple = list(zip(results.values(), test_df['class']))
+        error = float(sum(compared_results)) / len(compared_results)
         acc = 1 - error
         print('Accuracy = {}, Error = {}'.format(acc, error))
 
@@ -45,10 +45,10 @@ class NB_User:
 
     def writeResults(self,result):
         # python 3.0+
-        results_str = '\n'.join("{} {}".format(key, val) for (key, val) in result.items())
+        # results_str = '\n'.join("{} {}".format(key, val) for (key, val) in result.items())
 
         # python 3.0-
-        # ', '.join("%s=%r" % (key,val) for (key,val) in k.iteritems())
+        results_str = '\n'.join("%s %s" % (key,val) for (key,val) in result.iteritems())
         print(results_str)
         IO.writeResults(self.dir_path + 'output.txt', results_str)
 

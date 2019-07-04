@@ -64,7 +64,7 @@ class FlowerGui(Frame):
         self.BuildButton.place(x =self.XstartPixel + 200, y =self.YstartPixel + 220)
 
 
-        self.classifyButton = Button(self.master, text='Classify', width=10, bg='green', fg='white', command= self.classifyCommand)
+        self.classifyButton = Button(self.master, text='Classify', width=10, bg='blue', fg='white', command= self.classifyCommand)
         self.classifyButton.place(x =self.XstartPixel + 300, y =self.YstartPixel + 220)
         self.classifyButton.configure(state=DISABLED)
 
@@ -107,7 +107,7 @@ class FlowerGui(Frame):
         wantedFiles = ['Structure.txt','train.csv','test.csv']
         filteredFiles = [file for file in wantedFiles if file not in existingFileList]
         if len(filteredFiles) > 0:
-            self.updateStatus('Files {} doesnt exists'.format(filteredFiles))
+            self.updateStatus('Files %s doesnt exists' % filteredFiles)
             return
 
 
