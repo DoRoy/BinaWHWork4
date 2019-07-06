@@ -3,7 +3,6 @@ from Classifier.NB_User import NB_User
 
 class MainClass:
 
-
      def GUIRun(self):
          import GuiMainView
 
@@ -12,7 +11,7 @@ class MainClass:
          root = GuiMainView.setWindowSizeAndPosition(root)
          root.title("Naive Bayes Classifier")
 
-         guiFrame = GuiMainView.FlowerGui(root)
+         guiFrame = GuiMainView.NaiveBayesGui(root)
          guiFrame.mainloop()
 
 
@@ -22,22 +21,11 @@ class MainClass:
 
 
 def main():
+    # Helper class to control the Gui
     mainClass = MainClass()
+    # Run the Gui
     mainClass.GUIRun()
-    # nb_user = NB_User(dir_path='', bins=4)
-    # nb_user.run()
 
-
-def build(path, bins):
-    nb_user = NB_User(dir_path=path, bins=bins)
-    df_train = nb_user.getTrainData()
-    nb_user.fit_model(df_train)
-    return nb_user
-
-def classify(nb_user):
-    test_df = nb_user.getTestData()
-    results = nb_user.predict(test_df)
-    nb_user.writeResults(results)
 
 
 if __name__ == '__main__':
